@@ -1,2 +1,2 @@
 # PVA
-Estudos sobre splines e redes neurais
+Splines para Representação de Características Faciais com Aplicação em Biometria
