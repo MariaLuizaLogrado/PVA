@@ -11,7 +11,7 @@ T = 1;
 t = 0:0.01:1;
 N = numel(control_x);
 
-interpolated_points = zeros(numel(t), 2);
+interpolated_points = zeros(numel(t), 2); 
 X = zeros(numel(t), N-3);
 Y = zeros(numel(t), N-3);
 
@@ -22,35 +22,35 @@ endfor
 
 S = size(vx);
 
-% for i = 1:S(1)
-%   vx1 = vx(i,:);
-%   vy1 = vy(i,:);
-%   q_aux = catmull_rom_t(vx1, vy1, T);
-%   for j = 1:numel(t)
-%      interpolated_points(j,:) = q_aux(t(j));
-%   endfor
-%   X(:,i) = interpolated_points(:,1);
-%   Y(:,i) = interpolated_points(:,2);
-% endfor
+for i = 1:S(1)
+  vx1 = vx(i,:);
+  vy1 = vy(i,:);
+  q_aux = catmull_rom_t(vx1, vy1, T);
+  for j = 1:numel(t)
+     interpolated_points(j,:) = q_aux(t(j));
+  endfor
+  X(:,i) = interpolated_points(:,1);
+  Y(:,i) = interpolated_points(:,2);
+endfor
 
-% plot(control_x, control_y, '*k', 'linewidth', 2);
-% hold on
-% grid on
-% for i = 1:N-3
-%   plot(X(:,i), Y(:,i), '-b', 'linewidth', 1);
-%   legend({'Pontos de controle', 'Spline'}, 'location', 'southwest')
-%   title(['T = ', num2str(T)])
-%   xlabel('x','fontsize',15)
-%   ylabel('y','fontsize',15)
-%   xlim([0 10])
-%   ylim([0 8])
-%   pause(0.05)
-% end
-% figure (1,"PaperUnits", 'centimeters',...
-% "PaperSize",[15 10], "PaperPosition",[0 0 15 10])
+plot(control_x, control_y, '*k', 'linewidth', 2);
+hold on
+grid on
+for i = 1:N-3
+  plot(X(:,i), Y(:,i), '-b', 'linewidth', 1);
+  legend({'Pontos de controle', 'Spline'}, 'location', 'southwest')
+  title(['T = ', num2str(T)])
+  xlabel('x','fontsize',15)
+  ylabel('y','fontsize',15)
+  xlim([0 10])
+  ylim([0 8])
+  pause(0.05)
+end
+figure (1,"PaperUnits", 'centimeters',...
+"PaperSize",[15 10], "PaperPosition",[0 0 15 10])
 
-% % Save the figure with a unique filename for each iteration
-% print(['cat_rom_t1'],'-dpng','-r600')
+% Save the figure with a unique filename for each iteration
+print(['cat_rom_t1'],'-dpng','-r600')
 
 
 % %{
