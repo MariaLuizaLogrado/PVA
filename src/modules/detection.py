@@ -9,36 +9,24 @@ class Detection:
         self.left_eye = None
         self.right_eye = None
 
-    def detect_faces(self):
-        face_cascade = cv2.CascadeClassifier('models\haarcascade_frontalface_default.xml')
-        faces = face_cascade.detectMultiScale(self.gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))
-        for (x, y, w, h) in faces:
-            self.face = self.gray_image[y:y+h, x:x+w]
+    def detect(self, eyes_detection, path_model, gray_image, scale_factor, min_neighbors, min_size):
+        if eyes_detection:
+            cascade = cv2.CascadeClassifier(path_model)
+            output = cascade.detectMultiScale(gray_image, scaleFactor=scale_factor, minNeighbors=min_neighbors, minSize=min_size)
+            if len(output) >= 2:
+                output = sorted(output, key=lambda x: x[0])
+                x1, y1, w1, h1 = output[0]
+                x2, y2, w2, h2 = output[1]
+                return gray_image[y1:y1+h1, x1:x1+w1], gray_image[y2:y2+h2, x2:x2+w2]
 
-    def detect_nose(self):
-        nose_cascade = cv2.CascadeClassifier('models\haarcascade_mcs_nose.xml')
-        nose_model = nose_cascade.detectMultiScale(self.face, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))
-        for (x, y, w, h) in nose_model:
-            self.nose = self.face[y:y+h, x:x+w]
-
-    def detect_mouth(self):
-        mouth_cascade = cv2.CascadeClassifier('models\haarcascade_mcs_mouth.xml')
-        # mouth_model = mouth_cascade.detectMultiScale(self.face, scaleFactor=1.5, minNeighbors=15, minSize=(40, 50))
-        mouth_model = mouth_cascade.detectMultiScale(self.face, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))
-        for (x, y, w, h) in mouth_model:
-            self.mouth = self.face[y:y+h, x:x+w]
-
-    def detect_eyes(self):
-        eyes_cascade = cv2.CascadeClassifier('models\haarcascade_eye.xml')
-        eyes_model = eyes_cascade.detectMultiScale(self.face, scaleFactor=1.1, minNeighbors=5, minSize=(40, 50))
-        # Verificar se ao menos dois olhos foram detectados
-        if len(eyes_model) >= 2:
-            # Ordena os olhos pela posição horizontal (x), para tentar separar em esquerdo e direito
-            eyes_model = sorted(eyes_model, key=lambda x: x[0])
-            
-            # Assume que o primeiro é o olho esquerdo e o segundo é o olho direito
-            lx, ly, lw, lh = eyes_model[0]
-            rx, ry, rw, rh = eyes_model[1]
-            
-            self.left_eye = self.face[ly:ly+lh, lx:lx+lw]
-            self.right_eye = self.face[ry:ry+rh, rx:rx+rw]
+        else:
+            cascade = cv2.CascadeClassifier(path_model)
+            output = cascade.detectMultiScale(gray_image, scaleFactor=scale_factor, minNeighbors=min_neighbors, minSize=min_size)
+            for (x, y, w, h) in output:
+                return gray_image[y:y+h, x:x+w]
+        
+    def compute_all_detections(self):
+        self.face = self.detect(False, 'models\haarcascade_frontalface_default.xml', self.gray_image, 1.1, 5, (40, 50))
+        self.nose = self.detect(False, 'models\haarcascade_mcs_nose.xml', self.face, 1.1, 5, (40, 50))
+        self.mouth = self.detect(False, 'models\haarcascade_mcs_mouth.xml', self.face, 1.1, 5, (40, 50))
+        self.left_eye, self.right_eye = self.detect(True, 'models\haarcascade_eye.xml', self.face, 1.1, 5, (40, 50))

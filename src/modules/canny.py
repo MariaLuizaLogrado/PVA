@@ -8,19 +8,20 @@ class Canny:
         self.left_eye = left_eye
         self.right_eye = right_eye
 
-    def edge_detection(self):
-        self.mouth_edge = cv2.Canny(self.mouth, 150, 200)
-        self.nose_edge = cv2.Canny(self.nose, 150, 200)
-        self.left_eye_edge = cv2.Canny(self.left_eye, 150, 200)
-        self.right_eye_edge = cv2.Canny(self.right_eye, 150, 200)
+    def edge_detection(self, image):
+        return cv2.Canny(image, 150, 200)
+    
+    def coordenates(self, edge):
+        coord = np.argwhere(edge == 255)
+        return {tuple(coord): i for i, coord in enumerate(coord)}
+    
+    def compute_all_edges(self):
+        self.mouth_edge = self.edge_detection(self.mouth)
+        self.nose_edge = self.edge_detection(self.nose)
+        self.left_eye_edge = self.edge_detection(self.left_eye)
+        self.right_eye_edge = self.edge_detection(self.right_eye)
 
-    def coordenates(self):
-        mouth_coord = np.argwhere(self.mouth_edge == 255)
-        nose_coord = np.argwhere(self.nose_edge == 255)
-        left_eye_coord = np.argwhere(self.left_eye_edge == 255)
-        right_eye_coord = np.argwhere(self.right_eye_edge == 255)
-
-        self.mouth_dict = {tuple(coord): i for i, coord in enumerate(mouth_coord)}
-        self.nose_dict = {tuple(coord): i for i, coord in enumerate(nose_coord)}
-        self.left_eye_dict = {tuple(coord): i for i, coord in enumerate(left_eye_coord)}
-        self.right_eye_dict = {tuple(coord): i for i, coord in enumerate(right_eye_coord)}
+        self.mouth_dict = self.coordenates(self.mouth_edge)
+        self.nose_dict = self.coordenates(self.nose_edge)
+        self.left_eye_dict = self.coordenates(self.left_eye_edge)
+        self.right_eye_dict = self.coordenates(self.right_eye_edge)
