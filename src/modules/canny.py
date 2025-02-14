@@ -13,7 +13,8 @@ class Canny:
     
     def coordenates(self, edge):
         coord = np.argwhere(edge == 255)
-        return {tuple(coord): i for i, coord in enumerate(coord)}
+
+        return {i: tuple(coord)[::-1] for i, coord in enumerate(coord)}
     
     def compute_all_edges(self):
         self.mouth_edge = self.edge_detection(self.mouth)

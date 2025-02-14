@@ -75,7 +75,7 @@ def highlight_components(carac_dict, dic_main_carac_cc):
     Example:
     highlight_components(results[0][2].left_eye_dict, results[0][4].dic_main_left_eye_cc)
     '''
-    main_coord = list(carac_dict.keys())
+    main_coord = list(carac_dict.values())
     colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
     plt.figure(figsize=(12, 10))
 
@@ -83,11 +83,11 @@ def highlight_components(carac_dict, dic_main_carac_cc):
         for idx in dic_main_carac_cc[label]: # Iterar sobre os nós dos componentes conectados
             i, j = main_coord[idx] # Obter as coordenadas dos pontos
             # print(i, j, idx)
-            plt.scatter(j, i, color=colors[color%len(colors)])  # Plotar os pontos filtrados
+            plt.scatter(i, j, color=colors[color%len(colors)])  # Plotar os pontos filtrados
 
     plt.title("Pontos das Componentes Conectadas")
     plt.xlabel("Coluna")
     plt.ylabel("Linha")
-    plt.gca().invert_yaxis()  # Inverter o eixo y para corresponder à orientação das imagens OpenCV
+    plt.gca().invert_yaxis()
     plt.grid(True)
     plt.show()

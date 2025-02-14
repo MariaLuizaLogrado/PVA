@@ -1,5 +1,6 @@
 from .knot import Knot
 import matplotlib.pyplot as plt
+import random
 import numpy as np
 
 class BuildTree:
@@ -67,7 +68,36 @@ class BuildTree:
             no_altura_maxima = raiz.filhos[0] # max(raiz.filhos, key=lambda x: x.altura) # Entre todos os filhos, o código encontra aquele que tem a maior altura (o caminho mais longo até uma folha).
 
             return no_altura_maxima.altura + 1, [raiz.idx] + no_altura_maxima.caminho_altura_maxima, tamanho_caminho_maximo, caminho_maximo # A altura retornada é incrementada em 1, pois estamos subindo um nível na árvore, e o caminho máximo é atualizado para incluir o nó atual (raiz.idx) na frente da lista.
-             
+
+
+    def new_longest_path(self, paths):
+        new_longest_path = []
+        for longest_paths in paths:
+            first_element = longest_paths[0]
+            last_element = longest_paths[-1]
+
+            middle = longest_paths[2:-2]
+
+            sample_size = int(len(longest_paths) * 0.4) - 2
+
+            sample_midle = []
+            indexes = set()
+
+            while len(sample_midle) < sample_size:
+                index = random.choice(range(len(middle)))
+                if index not in indexes and (index - 1) not in indexes and (index + 1) not in indexes:
+                    sample_midle.append(middle[index])
+                    indexes.add(index)
+
+            sample_midle.sort(key=longest_paths.index)
+
+            sample = [first_element] + sample_midle + [last_element]
+            new_longest_path.append(sample)
+
+        return new_longest_path
+
+
+
 
     def compute_all_trees(self):
         self.raiz_nose = [self.build_tree(min_tree) for min_tree in self.min_trees_nose]
@@ -79,6 +109,13 @@ class BuildTree:
         self.longest_path_mouth = [self.prunning_tree(raiz)[3] for raiz in self.raiz_mouth]
         self.longest_path_left_eye = [self.prunning_tree(raiz)[3] for raiz in self.raiz_left_eye]
         self.longest_path_right_eye = [self.prunning_tree(raiz)[3] for raiz in self.raiz_right_eye]
+
+        self.new_longest_path_nose = self.new_longest_path(self.longest_path_nose)
+        self.new_longest_path_mouth = self.new_longest_path(self.longest_path_mouth)
+        self.new_longest_path_left_eye = self.new_longest_path(self.longest_path_left_eye)
+        self.new_longest_path_right_eye = self.new_longest_path(self.longest_path_right_eye)
+
+        
 
 
 def plot_logest_path(dic_coords, longest_path, nodes):
@@ -95,7 +132,7 @@ def plot_logest_path(dic_coords, longest_path, nodes):
 
 
     # Obter coordenadas destacadas na ordem definida
-    coords_destacados = [key for key, idx in coord.items() if idx in highlight_indices]
+    coords_destacados = [key for idx, key in coord.items() if idx in highlight_indices]
     coords_ordenados = [coords_destacados[i] for i in ordem if i < len(coords_destacados)]
 
     # Separar X e Y
@@ -103,18 +140,17 @@ def plot_logest_path(dic_coords, longest_path, nodes):
 
     # Plotar cada ponto e conectar com linhas
     for i in range(len(x_ordem) - 1):
-        plt.plot([y_ordem[i], y_ordem[i + 1]], [x_ordem[i], x_ordem[i + 1]], f'o-', linewidth=2, color = colors[j])  # Traçando a linha
-        plt.annotate(f'{i}', (y_ordem[i], x_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
+        plt.plot([x_ordem[i], x_ordem[i + 1]], [y_ordem[i], y_ordem[i + 1]], f'o-', linewidth=2, color = colors[j])  # Traçando a linha
+        plt.annotate(f'{i}', (x_ordem[i], y_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
 
     # Plotar o último ponto
-    plt.annotate(f'{len(x_ordem) - 1}', (y_ordem[-1], x_ordem[-1]), textcoords="offset points", xytext=(0,5), ha="right", color='black')
+    plt.annotate(f'{len(x_ordem) - 1}', (x_ordem[-1], y_ordem[-1]), textcoords="offset points", xytext=(0,5), ha="right", color='black')
 
-  # Melhorias na visualização
+    # Melhorias na visualização
   plt.gca().invert_yaxis()
   plt.grid(True, linestyle="--", alpha=0.5)
   plt.xlabel("Coordenada X")
   plt.ylabel("Coordenada Y")
   plt.title("Maiores Caminhos")
 
-  # Mostrar o gráfico
   return plt.show()
