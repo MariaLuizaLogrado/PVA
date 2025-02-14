@@ -80,58 +80,41 @@ class BuildTree:
         self.longest_path_left_eye = [self.prunning_tree(raiz)[3] for raiz in self.raiz_left_eye]
         self.longest_path_right_eye = [self.prunning_tree(raiz)[3] for raiz in self.raiz_right_eye]
 
-def plot_caminhos(mainCoord, maiores_caminhos, idx_desejado, mainConnected):
-    plt.figure(figsize=(13, 13))
 
-    # Plotar todos os nós como pontos
-    coords = np.array(mainCoord)
-    colors = ['blue', 'red', 'green', 'yellow', 'orange', 'black', 'purple', 'pink', 'brown', 'gray']
-    cor=0
-    anotacao = {}
-    # plt.scatter(coords[:, 1], coords[:, 0], s=50, color='black', label='Nó')
+def plot_logest_path(dic_coords, longest_path, nodes):
+  # Criar a figura
+  plt.figure(figsize=(12, 10))
 
-    if set(idx_desejado).issubset(set([connected.idx for connected in mainConnected])):
-        i = 0
+  coord = dic_coords
+  colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
 
-        for connected in mainConnected:
-            if connected.idx in idx_desejado:
-            # Verificar se o idx_desejado está no dicionário
-            # if idx_desejado in maiores_caminhos:
-                caminho = maiores_caminhos[connected.idx]
-                # Iterar por pares de nós no caminho
-                anotacao_coordendas = []
-                label = []
-                for i in range(len(caminho) - 1):
-                    node_idx = connected.nodes[caminho[i]]
-                    coord_inicial = coords[node_idx]    # Coordenada do nó inicial
-                    next_node_idx = connected.nodes[caminho[i+1]]
-                    coord_final = coords[next_node_idx]  # Coordenada do nó seguinte
-                    
-                    # Plotar a linha conectando os nós do componente desejado
-                    plt.plot([coord_inicial[1], coord_final[1]], [coord_inicial[0], coord_final[0]], 'o-', label=f'Componente {connected.idx}' if i == 0 else "", linewidth=2, color=colors[cor])
-                    
-                    # Anotar o número do nó no gráfico
-                    plt.annotate(f'{i}', (coord_inicial[1], coord_inicial[0]), textcoords="offset points", xytext=(0,5), ha='center', color='black')
-                    anotacao_coordendas.append((coord_inicial[1], coord_inicial[0]))
-                    label.append(i)
+  for j in range(len(longest_path)):
 
-                anotacao[connected.idx] = anotacao_coordendas
-                cor +=1
-                
-                # Anotar o último nó do caminho
-                last_node_idx = connected.nodes[caminho[-1]]
-                plt.annotate(f'{len(caminho) - 1}', (coords[last_node_idx][1], coords[last_node_idx][0]), textcoords="offset points", xytext=(0,5), ha='center', color='black')
-                anotacao[connected.idx].append((coords[last_node_idx][1], coords[last_node_idx][0]))
-    else:
-        print(f"Componentes não encontrados: {set(idx_desejado) - set([connected.idx for connected in mainConnected])}")
+    ordem = longest_path[j]
+    highlight_indices = nodes[j]
 
 
-    plt.xlabel('Coordenada X')
-    plt.ylabel('Coordenada Y')
-    plt.title(f'Maiores Caminhos - Componente {idx_desejado}')
-    plt.legend(loc='best')
-    plt.grid(True)
-    plt.gca().invert_yaxis()  # Inverter o eixo y para corresponder à orientação das imagens OpenCV
-    plt.show()
+    # Obter coordenadas destacadas na ordem definida
+    coords_destacados = [key for key, idx in coord.items() if idx in highlight_indices]
+    coords_ordenados = [coords_destacados[i] for i in ordem if i < len(coords_destacados)]
 
-    return anotacao
+    # Separar X e Y
+    x_ordem, y_ordem = zip(*coords_ordenados)
+
+    # Plotar cada ponto e conectar com linhas
+    for i in range(len(x_ordem) - 1):
+        plt.plot([y_ordem[i], y_ordem[i + 1]], [x_ordem[i], x_ordem[i + 1]], f'o-', linewidth=2, color = colors[j])  # Traçando a linha
+        plt.annotate(f'{i}', (y_ordem[i], x_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
+
+    # Plotar o último ponto
+    plt.annotate(f'{len(x_ordem) - 1}', (y_ordem[-1], x_ordem[-1]), textcoords="offset points", xytext=(0,5), ha="right", color='black')
+
+  # Melhorias na visualização
+  plt.gca().invert_yaxis()
+  plt.grid(True, linestyle="--", alpha=0.5)
+  plt.xlabel("Coordenada X")
+  plt.ylabel("Coordenada Y")
+  plt.title("Maiores Caminhos")
+
+  # Mostrar o gráfico
+  return plt.show()

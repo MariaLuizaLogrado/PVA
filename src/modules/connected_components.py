@@ -76,8 +76,8 @@ def highlight_components(carac_dict, dic_main_carac_cc):
     highlight_components(results[0][2].left_eye_dict, results[0][4].dic_main_left_eye_cc)
     '''
     main_coord = list(carac_dict.keys())
-    colors = ['blue', 'red', 'green', 'yellow', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan']
-    plt.figure(figsize=(8, 6))
+    colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
+    plt.figure(figsize=(12, 10))
 
     for color,label in enumerate(dic_main_carac_cc.keys()): # Iterar sobre as chaves do dicionário que contém os principais componentes conectados
         for idx in dic_main_carac_cc[label]: # Iterar sobre os nós dos componentes conectados
