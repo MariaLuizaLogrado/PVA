@@ -1,5 +1,6 @@
 import numpy as np
 from .catmull_rom_t import CatmullRomT
+import matplotlib.pyplot as plt
 
 class ComputeSplines:
     def __init__(self, 
@@ -115,4 +116,26 @@ class ComputeSplines:
                                                                                                                                self.idx_right_eye)
 
 
-def plot_splines()
+def plot_splines(all_X, all_Y, all_control_x, all_control_y):
+    
+    colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
+    plt.figure(figsize=(12, 10))
+
+    for i, (X, Y, control_x, control_y) in enumerate(zip(all_X, all_Y, all_control_x, all_control_y)):
+        color = colors[i]
+        # Plotando os pontos de controle
+        plt.plot(control_x, control_y, "o", color=color)
+        # Plotando a spline (interpolação) completa
+        plt.plot(X, Y, color=color)
+
+
+    # Definindo título, rótulos e legendas
+    plt.title('Interpolação Catmull-Rom - Trajetórias Completas e Pontos de Controle')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    # plt.legend()
+    plt.grid(True)
+    plt.gca().invert_yaxis()
+
+    # Exibindo o gráfico
+    plt.show()
