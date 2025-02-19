@@ -9,3 +9,12 @@ class Image:
     def reading_image(self):
         self.image = cv2.imread(self.path)
         self.gray_image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+
+import matplotlib.pyplot as plt
+def display_image(image):
+    plt.figure(figsize=(12, 10))
+    plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+
+    
