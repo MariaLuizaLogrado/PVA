@@ -29,22 +29,26 @@ class AdjacencyMatrix:
         return self.absolute_distance(point1, point2) <= threshold
 
     def check_neighborhood(self, points, row_col_threshold = 1, diagonal_threshold = 2):
+        points_list = list(points.items())
         connections = {}  # Dicionário para armazenar as ligações entre os points
-        for id1, ponto1 in points.items():
+        for id1, _ in points_list:
             connections[id1] = []  # Inicializa a lista de ligações para o ponto atual
-            for id2, ponto2 in points.items():
-                if ponto1 != ponto2:  # Evitar calcular a distância do ponto com ele mesmo
-                    # print(ponto1, ponto2)
-                    if self.in_same_row_or_column(ponto1, ponto2):  # Verificando se os points estão na mesma linha/coluna
-                        if self.neighborhood(ponto1, ponto2, row_col_threshold):  # Verificando se as distâncias estão dentro do limite imposto
-                            connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
 
-        for id1, ponto1 in points.items():
-            for id2, ponto2 in points.items():
-                if ponto1 != ponto2:  # Evitar calcular a distância do ponto com ele mesmo
-                    if self.in_diagonal(ponto1, ponto2):  # Evitar calcular a distância do ponto com ele mesmo
-                        if self.neighborhood(ponto1, ponto2, diagonal_threshold):  # Verificando se as distâncias estão dentro do limite imposto
-                            connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
+        for id1, ponto1 in points_list:
+            for id2, ponto2 in points_list[id1+1:]:
+                # print(ponto1, ponto2)
+                if self.in_same_row_or_column(ponto1, ponto2):  # Verificando se os points estão na mesma linha/coluna
+                    if self.neighborhood(ponto1, ponto2, row_col_threshold):  # Verificando se as distâncias estão dentro do limite imposto
+                        connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
+                        connections[id2].append(id1)  # Adicionar a ligação entre os points ao dicionário de ligações
+
+        for id1, ponto1 in points_list:
+            for id2, ponto2 in points_list[id1+1:]:
+                if self.in_diagonal(ponto1, ponto2):  # Evitar calcular a distância do ponto com ele mesmo
+                    if self.neighborhood(ponto1, ponto2, diagonal_threshold):  # Verificando se as distâncias estão dentro do limite imposto
+                        connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
+                        connections[id2].append(id1)  # Adicionar a ligação entre os points ao dicionário de ligações
+
         return connections
     
     def adjacency_matrix(self, connections):

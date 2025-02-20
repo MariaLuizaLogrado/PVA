@@ -30,13 +30,13 @@ class Detection:
         
     def compute_all_detections(self):
         start = time.time()
-        self.face = self.detect(False, 'models\haarcascade_frontalface_default.xml', self.gray_image, 1.3, 5, (30, 30))
+        self.face = self.detect(False, 'models/haarcascade_frontalface_default.xml', self.gray_image, 1.3, 5, (30, 30))
         end_face = time.time()
-        self.nose = self.detect(False, 'models\haarcascade_mcs_nose.xml', self.face, 1.1, 5, (40, 50))
+        self.nose = self.detect(False, 'models/haarcascade_mcs_nose.xml', self.face, 1.1, 5, (40, 50))
         end_nose = time.time()  
-        self.mouth = self.detect(False, 'models\haarcascade_mcs_mouth.xml', self.face, 1.1, 5, (40, 50))
+        self.mouth = self.detect(False, 'models/haarcascade_mcs_mouth.xml', self.face, 1.1, 5, (40, 50))
         end_mouth = time.time()
-        self.left_eye, self.right_eye = self.detect(True, 'models\haarcascade_eye.xml', self.face, 1.1, 5, (40, 50))
+        self.left_eye, self.right_eye = self.detect(True, 'models/haarcascade_eye.xml', self.face, 1.1, 5, (40, 50))
         end_eye = time.time()
         print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
 
