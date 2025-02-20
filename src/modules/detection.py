@@ -1,6 +1,14 @@
 import cv2
 import time
 
+class FaceFeature:
+    def __init__(self, img, x, y, w, h):
+        self.img = img
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
 class Detection:
     def __init__(self, gray_image):
         self.gray_image = gray_image
@@ -19,24 +27,28 @@ class Detection:
                 x1, y1, w1, h1 = output[0]
                 x2, y2, w2, h2 = output[1]
 
-                return gray_image[y1:y1+h1, x1:x1+w1], gray_image[y2:y2+h2, x2:x2+w2]
+                return FaceFeature(gray_image[y1:y1+h1, x1:x1+w1], x1, y1, w1, h1), FaceFeature(gray_image[y2:y2+h2, x2:x2+w2], x2, y2, w2, h2)
+            else:
+                return None, None
 
         else:
             cascade = cv2.CascadeClassifier(path_model)
             output = cascade.detectMultiScale(gray_image, scaleFactor=scale_factor, minNeighbors=min_neighbors, minSize=min_size)
             for (x, y, w, h) in output:
                 print(x, y, w, h) 
-                return gray_image[y:y+h, x:x+w]
+                return FaceFeature(gray_image[y:y+h, x:x+w], x, y, w, h)
         
     def compute_all_detections(self):
         start = time.time()
         self.face = self.detect(False, 'models/haarcascade_frontalface_default.xml', self.gray_image, 1.3, 5, (30, 30))
         end_face = time.time()
-        self.nose = self.detect(False, 'models/haarcascade_mcs_nose.xml', self.face, 1.1, 5, (40, 50))
+        if self.face is None:
+            return
+        self.nose = self.detect(False, 'models/haarcascade_mcs_nose.xml', self.face.img, 1.1, 5, (40, 50))
         end_nose = time.time()  
-        self.mouth = self.detect(False, 'models/haarcascade_mcs_mouth.xml', self.face, 1.1, 5, (40, 50))
+        self.mouth = self.detect(False, 'models/haarcascade_mcs_mouth.xml', self.face.img, 1.1, 5, (40, 50))
         end_mouth = time.time()
-        self.left_eye, self.right_eye = self.detect(True, 'models/haarcascade_eye.xml', self.face, 1.1, 5, (40, 50))
+        self.left_eye, self.right_eye = self.detect(True, 'models/haarcascade_eye.xml', self.face.img, 1.1, 5, (40, 50))
         end_eye = time.time()
         print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
 

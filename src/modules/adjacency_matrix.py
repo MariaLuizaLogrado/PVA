@@ -36,18 +36,9 @@ class AdjacencyMatrix:
 
         for id1, ponto1 in points_list:
             for id2, ponto2 in points_list[id1+1:]:
-                # print(ponto1, ponto2)
-                if self.in_same_row_or_column(ponto1, ponto2):  # Verificando se os points estão na mesma linha/coluna
-                    if self.neighborhood(ponto1, ponto2, row_col_threshold):  # Verificando se as distâncias estão dentro do limite imposto
-                        connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
-                        connections[id2].append(id1)  # Adicionar a ligação entre os points ao dicionário de ligações
-
-        for id1, ponto1 in points_list:
-            for id2, ponto2 in points_list[id1+1:]:
-                if self.in_diagonal(ponto1, ponto2):  # Evitar calcular a distância do ponto com ele mesmo
-                    if self.neighborhood(ponto1, ponto2, diagonal_threshold):  # Verificando se as distâncias estão dentro do limite imposto
-                        connections[id1].append(id2)  # Adicionar a ligação entre os points ao dicionário de ligações
-                        connections[id2].append(id1)  # Adicionar a ligação entre os points ao dicionário de ligações
+                if (abs(ponto1[0]-ponto2[0]) <= 1 and abs(ponto1[1]-ponto2[1]) <= 1):
+                    connections[id1].append(id2)
+                    connections[id2].append(id1)
 
         return connections
     
