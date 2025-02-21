@@ -5,14 +5,14 @@ import os
 import time
 
 from concurrent.futures import ThreadPoolExecutor
-from modules.image import Image, display_image
-from modules.detection import Detection, plot_detection
-from modules.canny import Canny
-from modules.adjacency_matrix import AdjacencyMatrix
-from modules.connected_components import ConnectedComponents, highlight_components
-from modules.mst import MinimunSpanningTree
-from modules.build_tree import BuildTree, plot_logest_path
-from modules.compute_splines import ComputeSplines, plot_splines
+from src.modules.image import Image, display_image
+from src.modules.detection import Detection, plot_detection
+from src.modules.canny import Canny
+from src.modules.adjacency_matrix import AdjacencyMatrix
+from src.modules.connected_components import ConnectedComponents, highlight_components
+from src.modules.mst import MinimunSpanningTree
+from src.modules.build_tree import BuildTree, plot_logest_path
+from src.modules.compute_splines import ComputeSplines, plot_splines
 
 import cv2
 from typing import Optional, Dict
@@ -139,5 +139,5 @@ while True:
 
     cv2.imshow("Webcam", img)
 
-    if cv2.waitKey(100) & 0xff == 27:  # ESC key
+    if cv2.waitKey(1000) & 0xff == 27:  # ESC key
         break
