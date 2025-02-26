@@ -21,62 +21,73 @@ class Detection:
     def detect_face(self):
         face_cascade = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
         faces = face_cascade.detectMultiScale(self.gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
+
         for (x,y,w,h) in faces:
-            face = FaceFeature(self.gray_image[y:y+h, x:x+w], x, y, w, h)
-    
-        return face
+            return FaceFeature(self.gray_image[y:y+h, x:x+w], x, y, w, h)
+        
+        return None
         
     def detect_nose(self):
         nose_cascade = cv2.CascadeClassifier('models/haarcascade_mcs_nose.xml')
-        noses = nose_cascade.detectMultiScale(self.face.img, scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
+        noses = nose_cascade.detectMultiScale(self.face.img[self.right_eye.y:(self.mouth.y + self.mouth.h), self.left_eye.x:(self.right_eye.x+self.right_eye.w)], scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
         for (x,y,w,h) in noses:
-            nose = FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
+            x += self.left_eye.x
+            y += self.right_eye.y
+            return FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
 
-        return nose
+        return None
     
     def detect_mouth(self):
         mouth_cascade = cv2.CascadeClassifier('models/haarcascade_mcs_mouth.xml')
-        mouths = mouth_cascade.detectMultiScale(self.face.img, scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
+        mouths = mouth_cascade.detectMultiScale(self.face.img[self.left_eye.y+self.left_eye.h:, :], scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
         for (x,y,w,h) in mouths:
-            mouth = FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
-            face_without_mouth = self.face.img.copy()
-            face_without_mouth[y:y+h, x:x+w] = 0
-            face_without_mouth = FaceFeature(face_without_mouth, x, y, w, h)
+            y += self.left_eye.y + self.left_eye.h
+            return FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
+
         
-        return mouth, face_without_mouth
+        return None #, face_without_mouth
     
     def detect_eyes(self):
         eye_cascade = cv2.CascadeClassifier('models/haarcascade_eye.xml')
-        eyes = eye_cascade.detectMultiScale(self.face_without_mouth.img, scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
+        eyes = eye_cascade.detectMultiScale(self.face.img, scaleFactor=1.1, minNeighbors=5, minSize=(40,50))
         if len(eyes) >= 2:
             eyes = sorted(eyes, key=lambda x: x[0])
             x1, y1, w1, h1 = eyes[0]
             x2, y2, w2, h2 = eyes[1]
-            left_eye = FaceFeature(self.face_without_mouth.img[y1:y1+h1, x1:x1+w1], x1, y1, w1, h1)
-            right_eye = FaceFeature(self.face_without_mouth.img[y2:y2+h2, x2:x2+w2], x2, y2, w2, h2)
+            return FaceFeature(self.face.img[y1:y1+h1, x1:x1+w1], x1, y1, w1, h1), FaceFeature(self.face.img[y2:y2+h2, x2:x2+w2], x2, y2, w2, h2)
 
         else:
             print("Olhos não detectados")
         
-        return left_eye, right_eye
+        return None, None
 
 
         
     def compute_all_detections(self):
-        start = time.time()
+
         self.face = self.detect_face()
         if self.face is None:
             print("Face não detectada")
             return
-
-        end_face = time.time()
-        self.nose = self.detect_nose()
-        end_nose = time.time()
-        self.mouth, self.face_without_mouth = self.detect_mouth()
-        end_mouth = time.time()
+        
         self.left_eye, self.right_eye = self.detect_eyes()
-        end_eye = time.time()
-        print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
+        if self.left_eye is None or self.right_eye is None:
+            print("Olhos não detectados")
+            return
+
+
+        self.mouth = self.detect_mouth()
+        if self.mouth is None:
+            print("Boca não detectada")
+            return
+        
+
+        self.nose = self.detect_nose()
+        if self.nose is None:
+            print("Nariz não detectado")
+            return
+
+        # print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
 
 def plot_detection(image, detection_face, detection_nose, detection_mouth, detection_left_eye, detection_right_eye):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
