@@ -84,7 +84,7 @@ def highlight_components(carac_dict, dic_main_carac_cc):
             i, j = main_coord[idx] # Obter as coordenadas dos pontos
             # print(i, j, idx)
             plt.scatter(i, j, color=colors[color%len(colors)])  # Plotar os pontos filtrados
-            plt.text(i, j, str(idx), fontsize=9, color='black', ha='right', va='bottom')
+            # plt.text(i, j, str(idx), fontsize=9, color='black', ha='right', va='bottom')
 
     plt.title("Pontos das Componentes Conectadas")
     plt.xlabel("Coluna")

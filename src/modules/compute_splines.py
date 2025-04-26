@@ -4,53 +4,66 @@ import matplotlib.pyplot as plt
 
 class ComputeSplines:
     def __init__(self, 
-                 new_longest_path_nose, new_longest_path_mouth, new_longest_path_left_eye,  new_longest_path_right_eye, 
-                 nodes_nose, nodes_mouth, nodes_left_eye, nodes_right_eye, 
-                 nose_dict, mouth_dict, left_eye_dict, right_eye_dict,
-                 idx_nose, idx_mouth, idx_left_eye, idx_right_eye):
+                 sorted_coord_nose, sorted_coord_mouth, sorted_coord_left_eye, sorted_coord_right_eye,
+                #  new_longest_path_nose, new_longest_path_mouth, new_longest_path_left_eye,  new_longest_path_right_eye, 
+                #  nodes_nose, nodes_mouth, nodes_left_eye, nodes_right_eye, 
+                #  nose_dict, mouth_dict, left_eye_dict, right_eye_dict,
+                #  idx_nose, idx_mouth, idx_left_eye, idx_right_eye
+                 ):
         
-        self.new_longest_path_nose = new_longest_path_nose
-        self.new_longest_path_mouth = new_longest_path_mouth
-        self.new_longest_path_left_eye = new_longest_path_left_eye
-        self.new_longest_path_right_eye = new_longest_path_right_eye
+        # self.new_longest_path_nose = new_longest_path_nose
+        # self.new_longest_path_mouth = new_longest_path_mouth
+        # self.new_longest_path_left_eye = new_longest_path_left_eye
+        # self.new_longest_path_right_eye = new_longest_path_right_eye
 
-        self.nodes_nose = nodes_nose
-        self.nodes_mouth = nodes_mouth
-        self.nodes_left_eye = nodes_left_eye
-        self.nodes_right_eye = nodes_right_eye
+        # self.nodes_nose = nodes_nose
+        # self.nodes_mouth = nodes_mouth
+        # self.nodes_left_eye = nodes_left_eye
+        # self.nodes_right_eye = nodes_right_eye
 
-        self.nose_dict = nose_dict
-        self.mouth_dict = mouth_dict
-        self.left_eye_dict = left_eye_dict
-        self.right_eye_dict = right_eye_dict
+        # self.nose_dict = nose_dict
+        # self.mouth_dict = mouth_dict
+        # self.left_eye_dict = left_eye_dict
+        # self.right_eye_dict = right_eye_dict
 
-        self.idx_nose = idx_nose
-        self.idx_mouth = idx_mouth
-        self.idx_left_eye = idx_left_eye
-        self.idx_right_eye = idx_right_eye
+        # self.idx_nose = idx_nose
+        # self.idx_mouth = idx_mouth
+        # self.idx_left_eye = idx_left_eye
+        # self.idx_right_eye = idx_right_eye
+        self.sorted_coord_nose = sorted_coord_nose
+        self.sorted_coord_mouth = sorted_coord_mouth
+        self.sorted_coord_left_eye = sorted_coord_left_eye
+        self.sorted_coord_right_eye = sorted_coord_right_eye
 
-    def compute_splines(self, new_longest_path, nodes,  dict, idx):
-        coordenadas_novos_caminhos = {}
+    def compute_splines(self, points_sorted):
+        # coordenadas_novos_caminhos = {}
 
-        for j in range(len(new_longest_path)):
+        # for j in range(len(new_longest_path)):
 
-            indices = new_longest_path[j]
-            filteredNos = [nodes[j][i] for i in indices]
-            coordenadas_caminho = [dict[i] for i in filteredNos]
-            coordenadas_novos_caminhos[idx[j]] = coordenadas_caminho 
+        #     indices = new_longest_path[j]
+        #     filteredNos = [nodes[j][i] for i in indices]
+        #     coordenadas_caminho = [dict[i] for i in filteredNos]
+        #     coordenadas_novos_caminhos[idx[j]] = coordenadas_caminho
+        #     print(coordenadas_novos_caminhos) 
 
         all_X = []
         all_Y = []
         all_control_x = []
         all_control_y = []
 
-        # Loop sobre cada chave em coordenadas_novos_caminhos
-        for idx, (key, value) in enumerate(coordenadas_novos_caminhos.items()):
+        # # Loop sobre cada chave em coordenadas_novos_caminhos
+        # for idx, (key, value) in enumerate(coordenadas_novos_caminhos.items()):
 
-            # Extraindo as coordenadas x e y
-            coordenadas = coordenadas_novos_caminhos[key]
-            control_x = [coord[0] for coord in coordenadas]
-            control_y = [coord[1] for coord in coordenadas]
+        #     # Extraindo as coordenadas x e y
+        #     coordenadas = coordenadas_novos_caminhos[key]
+        #     control_x = [coord[0] for coord in coordenadas]
+        #     control_y = [coord[1] for coord in coordenadas]
+        #     print(control_x)
+
+        for componente in points_sorted:
+
+            control_x = [coord[0] for coord in componente]
+            control_y = [coord[1] for coord in componente]
 
             # Adicionando pontos fantasmas
             control_x.insert(0, control_x[0] - 0.1)
@@ -97,24 +110,32 @@ class ComputeSplines:
     
     def compute_all_splines(self):
 
-        self.all_X_nose, self.all_Y_nose, self.all_control_x_nose, self.all_control_y_nose = self.compute_splines(self.new_longest_path_nose,
-                                                                                                                  self.nodes_nose, self.nose_dict,
-                                                                                                                  self.idx_nose)
+        self.all_X_nose, self.all_Y_nose, self.all_control_x_nose, self.all_control_y_nose = self.compute_splines(self.sorted_coord_nose
+                                                                                                                #  self.new_longest_path_nose,
+                                                                                                                #   self.nodes_nose, self.nose_dict,
+                                                                                                                #   self.idx_nose
+                                                                                                                  )
         
-        self.all_X_mouth, self.all_Y_mouth, self.all_control_x_mouth, self.all_control_y_mouth = self.compute_splines(self.new_longest_path_mouth,
-                                                                                                                      self.nodes_mouth,
-                                                                                                                      self.mouth_dict, 
-                                                                                                                      self.idx_mouth)
+        self.all_X_mouth, self.all_Y_mouth, self.all_control_x_mouth, self.all_control_y_mouth = self.compute_splines(self.sorted_coord_mouth
+                                                                                                                    #   self.new_longest_path_mouth,
+                                                                                                                    #   self.nodes_mouth,
+                                                                                                                    #   self.mouth_dict, 
+                                                                                                                    #   self.idx_mouth
+                                                                                                                      )
         
-        self.all_X_left_eye, self.all_Y_left_eye, self.all_control_x_left_eye, self.all_control_y_left_eye = self.compute_splines(self.new_longest_path_left_eye,
-                                                                                                                                  self.nodes_left_eye, 
-                                                                                                                                  self.left_eye_dict, 
-                                                                                                                                  self.idx_left_eye)
+        self.all_X_left_eye, self.all_Y_left_eye, self.all_control_x_left_eye, self.all_control_y_left_eye = self.compute_splines(self.sorted_coord_left_eye
+                                                                                                                                #   self.new_longest_path_left_eye,
+                                                                                                                                #   self.nodes_left_eye, 
+                                                                                                                                #   self.left_eye_dict, 
+                                                                                                                                #   self.idx_left_eye
+                                                                                                                                  )
         
-        self.all_X_right_eye, self.all_Y_right_eye, self.all_control_x_right_eye, self.all_control_y_right_eye = self.compute_splines(self.new_longest_path_right_eye,
-                                                                                                                                    self.nodes_right_eye, 
-                                                                                                                                    self.right_eye_dict, 
-                                                                                                                               self.idx_right_eye)
+        self.all_X_right_eye, self.all_Y_right_eye, self.all_control_x_right_eye, self.all_control_y_right_eye = self.compute_splines(self.sorted_coord_right_eye
+                                                                                                                                #   self.new_longest_path_right_eye,
+                                                                                                                                #     self.nodes_right_eye, 
+                                                                                                                                #     self.right_eye_dict, 
+                                                                                                                            #    self.idx_right_eye
+                                                                                                                               )
 
 
 def plot_splines(all_X, all_Y, all_control_x, all_control_y):

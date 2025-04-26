@@ -7,12 +7,11 @@ class BuildTree:
     def __init__(self, min_trees_nose, min_trees_mouth,  min_trees_left_eye, min_trees_right_eye):
         
         self.min_trees_nose = min_trees_nose
-
         self.min_trees_mouth = min_trees_mouth
-
         self.min_trees_left_eye = min_trees_left_eye
-
         self.min_trees_right_eye = min_trees_right_eye
+
+
 
     def build_tree(self, min_trees):
         abertos = []  
@@ -141,7 +140,7 @@ def plot_logest_path(dic_coords, longest_path, nodes):
     # Plotar cada ponto e conectar com linhas
     for i in range(len(x_ordem) - 1):
         plt.plot([x_ordem[i], x_ordem[i + 1]], [y_ordem[i], y_ordem[i + 1]], f'o-', linewidth=2, color = colors[j])  # Traçando a linha
-        # plt.annotate(f'{i}', (x_ordem[i], y_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
+        plt.annotate(f'{i}', (x_ordem[i], y_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
         plt.text
 
     # Plotar o último ponto
