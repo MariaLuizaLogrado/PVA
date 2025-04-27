@@ -64,7 +64,7 @@ class ConnectedComponents:
 
 
 
-def highlight_components(carac_dict, dic_main_carac_cc):
+def highlight_components(carac_dict, dic_main_carac_cc, name):
     '''
     Function to plot the main connected components of the face features
     
@@ -77,7 +77,7 @@ def highlight_components(carac_dict, dic_main_carac_cc):
     '''
     main_coord = list(carac_dict.values())
     colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
-    plt.figure(figsize=(12, 10))
+    plt.figure(figsize=(6, 5))
 
     for color,label in enumerate(dic_main_carac_cc.keys()): # Iterar sobre as chaves do dicionário que contém os principais componentes conectados
         for idx in dic_main_carac_cc[label]: # Iterar sobre os nós dos componentes conectados
@@ -87,8 +87,9 @@ def highlight_components(carac_dict, dic_main_carac_cc):
             # plt.text(i, j, str(idx), fontsize=9, color='black', ha='right', va='bottom')
 
     plt.title("Pontos das Componentes Conectadas")
-    plt.xlabel("Coluna")
-    plt.ylabel("Linha")
+    plt.xlabel("Coordenada X")
+    plt.ylabel("Coordenada Y")
     plt.gca().invert_yaxis()
     plt.grid(True)
+    plt.savefig(f"./exemplos/04_connected_components_{name}.png")
     plt.show()

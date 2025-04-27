@@ -117,7 +117,7 @@ class BuildTree:
         
 
 
-def plot_logest_path(dic_coords, longest_path, nodes):
+def plot_logest_path(dic_coords, longest_path, nodes, name):
   # Criar a figura
   plt.figure(figsize=(12, 10))
 
@@ -152,5 +152,5 @@ def plot_logest_path(dic_coords, longest_path, nodes):
   plt.xlabel("Coordenada X")
   plt.ylabel("Coordenada Y")
   plt.title("Maiores Caminhos")
-
-  return plt.show()
+  plt.savefig(f"./exemplos/{name}.png")
+  plt.show()

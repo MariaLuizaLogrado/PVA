@@ -62,7 +62,7 @@ class SortPoints:
         self.sorted_coord_left_eye = [self.sort_points(coords) for coords in coord_left_eye]
         self.sorted_coord_right_eye = [self.sort_points(coords) for coords in coord_right_eye]
 
-def plot_sorted_points(sorted):
+def plot_sorted_points(sorted, name):
     # Plotando os pontos e conectando-os
     plt.figure(figsize=(12, 10))
     colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
@@ -85,4 +85,5 @@ def plot_sorted_points(sorted):
     plt.ylabel('Coordenada Y')
     plt.gca().invert_yaxis()
     plt.grid(True)
+    plt.savefig(f'./exemplos/07_sorted_points_{name}.png')
     plt.show()

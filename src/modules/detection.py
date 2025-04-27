@@ -89,21 +89,27 @@ class Detection:
 
         # print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
 
-def plot_detection(image, detection_face, detection_nose, detection_mouth, detection_left_eye, detection_right_eye):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    if detection_face is not None:
-        x, y, w, h = detection_face
-        cv2.rectangle(image, (x, y), (x+w, y+h), (255, 0, 0), 2)
-    if detection_nose is not None:
-        x, y, w, h = detection_nose
-        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    if detection_mouth is not None:
-        x, y, w, h = detection_mouth
-        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 0, 255), 2)
-    if detection_left_eye is not None:
-        x, y, w, h = detection_left_eye
-        cv2.rectangle(image, (x, y), (x+w, y+h), (255, 255, 0), 2)
-    if detection_right_eye is not None:
-        x, y, w, h = detection_right_eye
-        cv2.rectangle(image, (x, y), (x+w, y+h), (255, 255, 0), 2)
-        return image
+def display_image_with_detections(image, face, nose, mouth, left_eye, right_eye):
+    # Desenhar retângulos ao redor das detecções
+    # if face is not None:
+    #     x, y, w, h = face.x, face.y, face.w, face.h
+    #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+    if nose is not None:
+        x, y, w, h = (face.x + nose.x, face.y + nose.y, nose.w, nose.h)
+        # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # cv2.crop(image, (x, y, w, h))
+    
+    # if mouth is not None:
+    #     x, y, w, h = (face.x + mouth.x, face.y + mouth.y, mouth.w, mouth.h)
+    #     cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    
+    # if left_eye is not None:
+    #     x, y, w, h = (face.x + left_eye.x, face.y + left_eye.y, left_eye.w, left_eye.h)
+    #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
+    
+    # if right_eye is not None:
+    #     x, y, w, h = (face.x + right_eye.x, face.y + right_eye.y, right_eye.w, right_eye.h)
+    #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
+    dir = "exemplos"
+    cv2.imwrite(dir + "/02_detected_nose.png", image[y:y + h, x:x + w])

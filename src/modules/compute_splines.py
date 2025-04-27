@@ -138,7 +138,7 @@ class ComputeSplines:
                                                                                                                                )
 
 
-def plot_splines(all_X, all_Y, all_control_x, all_control_y):
+def plot_splines(all_X, all_Y, all_control_x, all_control_y, name):
     
     colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
     plt.figure(figsize=(12, 10))
@@ -153,11 +153,10 @@ def plot_splines(all_X, all_Y, all_control_x, all_control_y):
 
     # Definindo título, rótulos e legendas
     plt.title('Interpolação Catmull-Rom - Trajetórias Completas e Pontos de Controle')
-    plt.xlabel('X')
-    plt.ylabel('Y')
+    plt.xlabel('Coordenada X')
+    plt.ylabel('Coordenada Y')
     # plt.legend()
     plt.grid(True)
     plt.gca().invert_yaxis()
-
-    # Exibindo o gráfico
+    plt.savefig(f'./exemplos/08_spline_plot_{name}.png')
     plt.show()

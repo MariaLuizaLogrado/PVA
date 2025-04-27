@@ -1,1 +1,4 @@
 **/__pycache__/
+zip_images/
+unzip_images.ipynb
+subject_counts.out

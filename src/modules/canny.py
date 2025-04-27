@@ -26,3 +26,7 @@ class Canny:
         self.nose_dict = self.coordenates(self.nose_edge)
         self.left_eye_dict = self.coordenates(self.left_eye_edge)
         self.right_eye_dict = self.coordenates(self.right_eye_edge)
+
+def display_canny(image, name="example_image"):
+    dir = "exemplos"
+    cv2.imwrite(dir + "/" + name + ".png", image)
