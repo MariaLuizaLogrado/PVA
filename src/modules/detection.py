@@ -33,7 +33,7 @@ class Detection:
         for (x,y,w,h) in noses:
             x += self.left_eye.x
             y += self.right_eye.y
-            return FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
+            return FaceFeature(self.face.img[y:y+h, x:x+w], x + self.face.x, y+self.face.y, w, h)
 
         return None
     
