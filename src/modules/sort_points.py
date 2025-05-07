@@ -64,7 +64,7 @@ class SortPoints:
 
 def plot_sorted_points(sorted, name):
     # Plotando os pontos e conectando-os
-    plt.figure(figsize=(12, 10))
+    plt.figure(figsize=(6, 5))
     colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
 
     for grupo, color in zip(sorted, colors):
@@ -80,9 +80,10 @@ def plot_sorted_points(sorted, name):
                         arrowprops=dict(facecolor=color, edgecolor=color, arrowstyle='->', lw=2))
 
     # Personaliza o gráfico
-    plt.title('Visualização da Ordem dos Pontos')
-    plt.xlabel('Coordenada X')
-    plt.ylabel('Coordenada Y')
+    # plt.title('Visualização da Ordem dos Pontos')
+    # plt.xlabel('Coordenada X')
+    # plt.ylabel('Coordenada Y')
+    plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False, labelbottom=False, labelleft=False)
     plt.gca().invert_yaxis()
     plt.grid(True)
     plt.savefig(f'./exemplos/07_sorted_points_{name}.png')

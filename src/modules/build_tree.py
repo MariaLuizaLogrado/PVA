@@ -119,7 +119,7 @@ class BuildTree:
 
 def plot_logest_path(dic_coords, longest_path, nodes, name):
   # Criar a figura
-  plt.figure(figsize=(12, 10))
+  plt.figure(figsize=(6, 5))
 
   coord = dic_coords
   colors = ['blue', 'red', 'green', 'gray', 'orange', 'black', 'purple', 'pink', 'brown', 'cyan', 'yellow', 'magenta']
@@ -139,18 +139,19 @@ def plot_logest_path(dic_coords, longest_path, nodes, name):
 
     # Plotar cada ponto e conectar com linhas
     for i in range(len(x_ordem) - 1):
-        plt.plot([x_ordem[i], x_ordem[i + 1]], [y_ordem[i], y_ordem[i + 1]], f'o-', linewidth=2, color = colors[j])  # Traçando a linha
-        plt.annotate(f'{i}', (x_ordem[i], y_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
+        plt.plot([x_ordem[i], x_ordem[i + 1]], [y_ordem[i], y_ordem[i + 1]], f'o', linewidth=2, color = colors[j])  # Traçando a linha
+        # plt.annotate(f'{i}', (x_ordem[i], y_ordem[i]), textcoords="offset points", xytext=(0,5), ha="center", color='black')  # Anotando o número do nó
         plt.text
 
     # Plotar o último ponto
-    plt.annotate(f'{len(x_ordem) - 1}', (x_ordem[-1], y_ordem[-1]), textcoords="offset points", xytext=(0,5), ha="right", color='black')
+    # plt.annotate(f'{len(x_ordem) - 1}', (x_ordem[-1], y_ordem[-1]), textcoords="offset points", xytext=(0,5), ha="right", color='black')
 
     # Melhorias na visualização
   plt.gca().invert_yaxis()
-  plt.grid(True, linestyle="--", alpha=0.5)
-  plt.xlabel("Coordenada X")
-  plt.ylabel("Coordenada Y")
-  plt.title("Maiores Caminhos")
+  plt.grid(True)
+#   plt.xlabel("Coordenada X")
+#   plt.ylabel("Coordenada Y")
+#   plt.title("Maiores Caminhos")
+  plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False, labelbottom=False, labelleft=False)
   plt.savefig(f"./exemplos/{name}.png")
   plt.show()

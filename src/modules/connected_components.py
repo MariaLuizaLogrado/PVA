@@ -86,9 +86,10 @@ def highlight_components(carac_dict, dic_main_carac_cc, name):
             plt.scatter(i, j, color=colors[color%len(colors)])  # Plotar os pontos filtrados
             # plt.text(i, j, str(idx), fontsize=9, color='black', ha='right', va='bottom')
 
-    plt.title("Pontos das Componentes Conectadas")
-    plt.xlabel("Coordenada X")
-    plt.ylabel("Coordenada Y")
+    # plt.title("Pontos das Componentes Conectadas")
+    # plt.xlabel("Coordenada X")
+    # plt.ylabel("Coordenada Y")
+    plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False, labelbottom=False, labelleft=False)
     plt.gca().invert_yaxis()
     plt.grid(True)
     plt.savefig(f"./exemplos/04_connected_components_{name}.png")

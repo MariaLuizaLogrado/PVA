@@ -33,7 +33,7 @@ class Detection:
         for (x,y,w,h) in noses:
             x += self.left_eye.x
             y += self.right_eye.y
-            return FaceFeature(self.face.img[y:y+h, x:x+w], x + self.face.x, y+self.face.y, w, h)
+            return FaceFeature(self.face.img[y:y+h, x:x+w], x, y, w, h)
 
         return None
     
@@ -95,8 +95,8 @@ def display_image_with_detections(image, face, nose, mouth, left_eye, right_eye)
     #     x, y, w, h = face.x, face.y, face.w, face.h
     #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-    if nose is not None:
-        x, y, w, h = (face.x + nose.x, face.y + nose.y, nose.w, nose.h)
+    # if nose is not None:
+    #     x, y, w, h = (face.x + nose.x, face.y + nose.y, nose.w, nose.h)
         # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         # cv2.crop(image, (x, y, w, h))
     
@@ -108,8 +108,8 @@ def display_image_with_detections(image, face, nose, mouth, left_eye, right_eye)
     #     x, y, w, h = (face.x + left_eye.x, face.y + left_eye.y, left_eye.w, left_eye.h)
     #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
     
-    # if right_eye is not None:
-    #     x, y, w, h = (face.x + right_eye.x, face.y + right_eye.y, right_eye.w, right_eye.h)
+    if right_eye is not None:
+        x, y, w, h = (face.x + right_eye.x, face.y + right_eye.y, right_eye.w, right_eye.h)
     #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
     dir = "exemplos"
-    cv2.imwrite(dir + "/02_detected_nose.png", image[y:y + h, x:x + w])
+    cv2.imwrite(dir + "/02_detected_right_eye.png", image[y:y + h, x:x + w])
