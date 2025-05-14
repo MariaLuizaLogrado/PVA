@@ -6,6 +6,7 @@ class Canny:
                  nose, nose_x, nose_y,
                  left_eye, left_eye_x, left_eye_y,
                  right_eye, right_eye_x, right_eye_y
+                #  mid_point 
                  ):
         self.mouth = mouth
         self.mouth_x = mouth_x
@@ -23,6 +24,8 @@ class Canny:
         self.right_eye_x = right_eye_x
         self.right_eye_y = right_eye_y
 
+        # self.mid_point = mid_point
+
 
     def edge_detection(self, image):
         return cv2.Canny(image, 150, 200)
@@ -31,7 +34,13 @@ class Canny:
         coord = np.argwhere(edge == 255)
         sum = np.array([y,x])
         coord_sum = coord + sum
+        # print(coord_sum)
 
+        # coord_mid = coord_sum - self.mid_point
+
+        # print(coord_mid)
+
+        # return {i: tuple(coord_mid)[::-1] for i, coord_mid in enumerate(coord_mid)}
         return {i: tuple(coord_sum)[::-1] for i, coord_sum in enumerate(coord_sum)}
     
     def compute_all_edges(self):

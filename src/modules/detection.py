@@ -1,5 +1,6 @@
 import cv2
 import time
+import matplotlib.pyplot as plt
 
 class FaceFeature:
     def __init__(self, img, x, y, w, h):
@@ -86,14 +87,27 @@ class Detection:
         if self.nose is None:
             print("Nariz não detectado")
             return
+        
+        self.mid_point = (self.face.x + self.face.w // 2, self.face.y + self.face.h // 2)
 
         # print(f"Face detection: {end_face - start}\nNose detection: {end_nose - end_face}\nMouth detection: {end_mouth - end_nose}\nEye detection: {end_eye - end_mouth}")
 
 def display_image_with_detections(image, face, nose, mouth, left_eye, right_eye):
     # Desenhar retângulos ao redor das detecções
-    # if face is not None:
-    #     x, y, w, h = face.x, face.y, face.w, face.h
-    #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+    if face is not None:
+        x, y, w, h = face.x, face.y, face.w, face.h
+        cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        middle_point = (x + w // 2, y + h // 2)
+        cv2.circle(image, middle_point, 5, (0, 255, 0), -1)
+
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # Plota com matplotlib
+        plt.imshow(image_rgb)
+        plt.axis('off')
+        plt.show()
+    
 
     # if nose is not None:
     #     x, y, w, h = (face.x + nose.x, face.y + nose.y, nose.w, nose.h)
@@ -108,8 +122,8 @@ def display_image_with_detections(image, face, nose, mouth, left_eye, right_eye)
     #     x, y, w, h = (face.x + left_eye.x, face.y + left_eye.y, left_eye.w, left_eye.h)
     #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
     
-    if right_eye is not None:
-        x, y, w, h = (face.x + right_eye.x, face.y + right_eye.y, right_eye.w, right_eye.h)
+    # if right_eye is not None:
+    #     x, y, w, h = (face.x + right_eye.x, face.y + right_eye.y, right_eye.w, right_eye.h)
     #     cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)
-    dir = "exemplos"
-    cv2.imwrite(dir + "/02_detected_right_eye.png", image[y:y + h, x:x + w])
+    # dir = "exemplos"
+    # cv2.imwrite(dir + "/02_detected_right_eye.png", image[y:y + h, x:x + w])
