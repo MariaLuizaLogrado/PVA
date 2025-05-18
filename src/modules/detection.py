@@ -9,6 +9,7 @@ class FaceFeature:
         self.y = y
         self.w = w
         self.h = h
+        self.mid_point = (x + w // 2, y + h // 2)
 
 class Detection:
     def __init__(self, gray_image):
@@ -18,6 +19,7 @@ class Detection:
         self.mouth = None
         self.left_eye = None
         self.right_eye = None
+
 
     def detect_face(self):
         face_cascade = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')

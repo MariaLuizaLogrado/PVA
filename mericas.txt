@@ -1,0 +1,11 @@
+Primeiro teste  (passo 0.5, sem translação, tensão 1, apenas um array): acurácia 37.5 %, tempo 4 min
+Segundo teste (passo 0.5, com translação, tensão 1, apenas um array): acurácia 58.33 %, tempo 4 min 
+Terceiro teste (passo 0.1, com translação, tensão 1, apenas um array): acurácia 29.16 %, tempo 1h 15 min
+Quarto teste (passo 0.5, com translação, tensão 0.5, apenas um array): acurácia 41.66 %, 4 min
+
+Quinto teste (passo 0.5, sem translação, tensão 1, um array para cada característica): acurácia 45.83 %, tempo 2 min
+Sexto teste (passo 0.5, com translação, tensão 1, um array para cada característica): acurácia 41.66 %, tempo 2 min
+
+Sétimo teste (passo 0.5, com translação para cada característica, tensão 1, um array para cada característica): acurácia 75 %, tempo 2 min
+Oitavo teste (passo 0.25, com translação para cada característica, tensão 1, um array para cada característica): acurácia 66.66 %, tempo 9 min
+Nono teste (passo 1, com translação para cada característica, tensão 0.5, um array para cada característica): acurácia 66.66 %, tempo 1 min
