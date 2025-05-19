@@ -8,4 +8,5 @@ Sexto teste (passo 0.5, com translação, tensão 1, um array para cada caracter
 
 Sétimo teste (passo 0.5, com translação para cada característica, tensão 1, um array para cada característica): acurácia 75 %, tempo 2 min
 Oitavo teste (passo 0.25, com translação para cada característica, tensão 1, um array para cada característica): acurácia 66.66 %, tempo 9 min
-Nono teste (passo 1, com translação para cada característica, tensão 0.5, um array para cada característica): acurácia 66.66 %, tempo 1 min
+Nono teste (passo 1, com translação para cada característica, tensão 1, um array para cada característica): acurácia 66.66 %, tempo 1 min
+Décimo teste (passo 0.1, com translação para cada característica, tensão 1, um array para cada característica): acurácia 79.17 %, tempo 1h 6min
