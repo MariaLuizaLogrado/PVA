@@ -72,7 +72,7 @@ class ComputeSplines:
             control_y.append(control_y[-1] + 0.1)
 
             T = 1
-            t = np.arange(0, 1.1, 0.1)
+            t = np.arange(0, 1.1, 0.5)
             # t = np.zeros(1)
             N = len(control_x)
 

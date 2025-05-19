@@ -6,7 +6,7 @@ class Canny:
                  nose, nose_x, nose_y,
                  left_eye, left_eye_x, left_eye_y,
                  right_eye, right_eye_x, right_eye_y,
-                #  mid_point,
+                 mid_point,
                  mid_point_mouth, mid_point_nose, mid_point_le, mid_point_re 
                  ):
         self.mouth = mouth
@@ -25,7 +25,7 @@ class Canny:
         self.right_eye_x = right_eye_x
         self.right_eye_y = right_eye_y
 
-        # self.mid_point = mid_point
+        self.mid_point = mid_point
 
         self.mid_point_mouth = mid_point_mouth
         self.mid_point_nose = mid_point_nose
