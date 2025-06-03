@@ -71,9 +71,9 @@ class ComputeSplines:
             control_y.insert(0, control_y[0] - 0.1)
             control_y.append(control_y[-1] + 0.1)
 
-            T = 1
-            t = np.arange(0, 1.1, 0.5)
-            # t = np.zeros(1)
+            T = 0.25
+            # t = np.arange(0, 1.1, 1)
+            t = np.zeros(1)
             N = len(control_x)
 
             interpolated_points = np.zeros((len(t), 2))
