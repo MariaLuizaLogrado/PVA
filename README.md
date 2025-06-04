@@ -1,5 +1,4 @@
-# Trabalho de Conclusão de Curso
-Modelagem de Feições Faciais com Splines para Reconhecimento por Dynamic Time Warping
+# Modelagem de Feições Faciais com Splines para Reconhecimento por Dynamic Time Warping
 
 ### Resumo
 
