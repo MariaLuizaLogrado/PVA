@@ -1,4 +1,4 @@
-# PVA
+# Trabalho de COnclusão de Curso
 Modelagem de Feições Faciais com Splines para Reconhecimento por Dynamic Time Warping
 
 ### Resumo
